@@ -1,0 +1,582 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>TruthLens AI - Machine Learning News Analysis</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#005320",
+                        "tertiary": "#000000",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "surface-container": "#eceef0",
+                        "primary-fixed": "#dae2fd",
+                        "on-surface-variant": "#45464d",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-highest": "#e0e3e5",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#00174b",
+                        "inverse-primary": "#bec6e0",
+                        "on-primary-fixed": "#131b2e",
+                        "primary": "#000000",
+                        "on-tertiary-fixed": "#002109",
+                        "surface-tint": "#565e74",
+                        "outline-variant": "#c6c6cd",
+                        "secondary-container": "#316bf3",
+                        "on-background": "#191c1e",
+                        "on-secondary-container": "#fefcff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "background": "#f7f9fb",
+                        "surface": "#f7f9fb",
+                        "outline": "#76777d",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e0e3e5",
+                        "on-primary-container": "#7c839b",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-dim": "#d8dadc",
+                        "tertiary-container": "#002109",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed": "#7ffc97",
+                        "secondary": "#0051d5",
+                        "secondary-fixed": "#dbe1ff",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "primary-container": "#131b2e",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary-container": "#009842"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "container-padding": "24px",
+                        "stack-lg": "32px",
+                        "unit": "8px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Subtle Ambient Shadows */
+        .shadow-level-1 {
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+        }
+        .shadow-level-2 {
+            box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.1), 0 2px 4px -1px rgba(15, 23, 42, 0.06);
+        }
+        
+        /* Status Badges */
+        .badge-real { background-color: #DCFCE7; color: #166534; }
+        .badge-fake { background-color: #FEE2E2; color: #991B1B; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased pt-16">
+<!-- TopNavBar Component -->
+<nav class="fixed top-0 w-full z-50 bg-surface/95 backdrop-blur-md flex justify-between items-center px-container-padding py-unit h-16 max-w-7xl mx-auto shadow-sm">
+<div class="flex items-center gap-2">
+<img alt="TruthLens Logo" class="h-8 w-auto rounded" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3Q89IISLI-a-Si1CzWkk9l4A3OLShiZhi9jQaU2kQmMUQJfJJGyDTpuHnupIVLFv2MI5Xa17kEOOdfEgKCTGxqBWDgGfZrQigb8w7bGjsu4RJc-6IIGoCiA2OXSpn4srdAzpECFNPYS96fPMz7uxcC-omr3HcyvUVBaLiw_NCn5i-2IO873lIO-vNksK13pk8yQRbplu3QmomvFyWg51w8O1FlZTG9elzEQIOvhgRgAJmK8hQR634HA">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">TruthLens</span>
+</div>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-secondary font-bold border-b-2 border-secondary font-body-md text-body-md hover:text-secondary transition-colors duration-200" href="#home">Home</a>
+<a class="text-on-surface-variant hover:text-primary font-body-md text-body-md transition-colors duration-200" href="#how-it-works">How It Works</a>
+<a class="text-on-surface-variant hover:text-primary font-body-md text-body-md transition-colors duration-200" href="#technology">Technology</a>
+<a class="text-on-surface-variant hover:text-primary font-body-md text-body-md transition-colors duration-200" href="#about">About</a>
+</div>
+<div class="flex items-center gap-4">
+<a class="hidden md:inline-flex items-center justify-center bg-secondary text-on-secondary px-4 py-2 rounded font-label-md text-label-md hover:bg-secondary-container hover:text-on-secondary-container transition-colors shadow-level-1" href="#detector">Try Detector</a>
+<button class="md:hidden text-on-surface p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto px-container-padding pb-stack-lg">
+<!-- Hero Section -->
+<section class="py-16 md:py-24 grid md:grid-cols-2 gap-stack-lg items-center" id="home">
+<div class="flex flex-col gap-stack-md">
+<h1 class="font-display-lg text-display-lg text-primary">Know What You're Reading.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Advanced NLP and Machine Learning algorithms instantly analyze news articles to predict their authenticity with high confidence. Built for transparency and objective clarity.</p>
+<div class="flex flex-wrap gap-4 mt-4">
+<a class="inline-flex items-center justify-center bg-secondary text-on-secondary px-6 py-3 rounded-lg font-label-md text-label-md hover:bg-secondary-container hover:text-on-secondary-container transition-colors shadow-level-1" href="#detector">
+<span class="material-symbols-outlined mr-2 icon-fill">search</span> Analyze News
+                    </a>
+<a class="inline-flex items-center justify-center border border-outline text-primary px-6 py-3 rounded-lg font-label-md text-label-md hover:bg-surface-container transition-colors" href="#how-it-works">
+                        How It Works
+                    </a>
+</div>
+<div class="flex items-center gap-6 mt-8 pt-6 border-t border-surface-variant text-on-surface-variant">
+<div class="flex items-center gap-2 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-secondary text-sm">memory</span> NLP Powered
+                    </div>
+<div class="flex items-center gap-2 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-secondary text-sm">bar_chart</span> TF-IDF Analysis
+                    </div>
+<div class="flex items-center gap-2 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-secondary text-sm">psychology</span> Machine Learning
+                    </div>
+</div>
+</div>
+<!-- Live Analysis Card Placeholder -->
+<div class="bg-surface-container-lowest rounded-xl p-6 border border-surface-variant shadow-level-2 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary to-primary-fixed"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Live Analysis</span>
+</div>
+<span id="liveBadge" class="badge-real px-2 py-1 rounded font-label-sm text-label-sm flex items-center gap-1">
+    <span id="liveIcon" class="material-symbols-outlined text-[14px]">check_circle</span>
+    <span id="livePrediction">READY</span>
+</span>
+</div>
+<h3 id="liveHeadline" class="font-headline-sm text-headline-sm text-primary mb-2 line-clamp-2">Analyze a headline or article to see your latest prediction here.</h3>
+<div class="mt-6 space-y-4">
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Confidence Score</span>
+<span id="liveConfidence" class="font-label-sm text-label-sm font-bold text-primary">--</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5">
+<div id="liveConfidenceBar" class="bg-secondary h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+</div>
+</div>
+<div class="pt-4 border-t border-surface-variant flex gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">info</span>
+<p id="liveMessage" class="font-body-sm text-body-sm text-on-surface-variant">Your latest analysis result will appear here.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Detector Section -->
+<section class="py-16" id="detector">
+<div class="text-center mb-10">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Text Analysis Engine</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Paste an article or headline below for instant ML classification.</p>
+</div>
+<div class="max-w-4xl mx-auto bg-surface-container-lowest rounded-xl border border-surface-variant shadow-level-1 overflow-hidden">
+<div class="border-b border-surface-variant flex">
+<button id="headlineTab" class="px-6 py-4 font-label-md text-label-md text-secondary border-b-2 border-secondary font-medium">Headline Only</button>
+<button id="articleTab" class="px-6 py-4 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Full Article</button>
+</div>
+<div class="p-6">
+<textarea id="newsInput" class="w-full h-48 p-4 bg-surface rounded-lg border border-outline-variant focus:border-secondary focus:ring-1 focus:ring-secondary resize-none font-body-md text-body-md text-on-surface placeholder-on-surface-variant" placeholder="Enter the news text here to analyze..."></textarea>
+<div class="flex justify-between items-center mt-4">
+<span id="charCount" class="font-body-sm text-body-sm text-on-surface-variant">0 / 5000 characters</span>
+<div class="flex gap-4">
+<button id="clearButton" class="px-4 py-2 text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors">Clear</button>
+<button id="analyzeButton" class="inline-flex items-center justify-center bg-secondary text-on-secondary px-6 py-2 rounded font-label-md text-label-md hover:bg-secondary-container transition-colors shadow-level-1"></button>
+<span class="material-symbols-outlined mr-2">analytics</span> Analyze
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="resultCard" class="hidden mt-6 p-6 rounded-xl border border-surface-variant bg-surface-container-low">
+    <div class="flex items-center justify-between mb-4">
+        <h3 class="font-headline-sm text-headline-sm text-primary">Analysis Result</h3>
+        <span id="resultBadge" class="px-3 py-1 rounded-full font-label-sm text-label-sm"></span>
+    </div>
+
+    <div class="mb-4">
+        <div class="flex justify-between items-center mb-2">
+            <span class="font-label-sm text-label-sm text-on-surface-variant">Confidence Score</span>
+            <span id="confidenceText" class="font-label-sm text-label-sm font-bold text-primary">0%</span>
+        </div>
+
+        <div class="w-full bg-surface-variant rounded-full h-2">
+            <div id="confidenceBar" class="h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <p id="resultMessage" class="font-body-sm text-body-sm text-on-surface-variant"></p>
+    <div id="articleFeatures" class="hidden mt-6 pt-6 border-t border-surface-variant">
+    <h4 class="font-headline-sm text-headline-sm text-primary mb-4">Why This Prediction?</h4>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mb-4">
+        These features had the strongest influence on this prediction.
+    </p>
+
+    <div id="articleFeatureList" class="space-y-3"></div>
+</div>
+</div>
+
+</div>
+</section>
+</section><section class="py-16 bg-surface" id="feature-importance">
+<div class="max-w-7xl mx-auto px-container-padding">
+<div class="text-center mb-10">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Model Insights: Feature Importance</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-4xl mx-auto">See the top words and linguistic features the model uses to predict authenticity. Positive coefficients indicate words associated with 'Real' news, while negative coefficients indicate 'Fake' news patterns.</p>
+</div>
+<div class="grid md:grid-cols-2 gap-8">
+<!-- Real News Indicators -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-surface-variant shadow-level-1">
+<h3 class="font-headline-sm text-headline-sm text-on-tertiary-container mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">check_circle</span>
+                    Top Indicators for Real News
+                </h3>
+<div class="space-y-4">
+<div class="space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span id="realWord1">Government</span>
+<span id="realWeight1" class="font-bold">+2.45</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2">
+<div class="bg-on-tertiary-container h-2 rounded-full" style="width: 95%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span id="realWord2">Policy</span>
+<span id="realWeight2" class="font-bold">+2.12</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2">
+<div class="bg-on-tertiary-container h-2 rounded-full" style="width: 82%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span id="realWord3">Official</span>
+<span id="realWeight3" class="font-bold">+1.98</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2">
+<div class="bg-on-tertiary-container h-2 rounded-full" style="width: 76%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span id="realWord4">Announced</span>
+<span id="realWeight4" class="font-bold">+1.75</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2">
+<div class="bg-on-tertiary-container h-2 rounded-full" style="width: 68%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span id="realWord5">Reported</span>
+<span id="realWeight5" class="font-bold">+1.64</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2">
+<div class="bg-on-tertiary-container h-2 rounded-full" style="width: 64%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Fake News Indicators -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-surface-variant shadow-level-1">
+<h3 class="font-headline-sm text-headline-sm mb-6 flex items-center gap-2" style="color: #f97316;">
+<span class="material-symbols-outlined">error</span>
+                    Top Indicators for Fake News
+                </h3>
+<div class="space-y-4">
+<div class="space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span id="fakeWord1">Shocking</span>
+<span id="fakeWeight1" class="font-bold">-2.88</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2">
+<div class="h-2 rounded-full" style="background-color: rgb(249, 115, 22); width: 98%;"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span id="fakeWord2">Viral</span>
+<span id="fakeWeight2" class="font-bold">-2.54</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2">
+<div class="h-2 rounded-full" style="background-color: rgb(249, 115, 22); width: 88%;"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span id="fakeWord3">Unbelievable</span>
+<span id="fakeWeight3" class="font-bold">-2.31</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2">
+<div class="h-2 rounded-full" style="background-color: rgb(249, 115, 22); width: 80%;"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span id="fakeWord4">Conspiracy</span>
+<span id="fakeWeight4" class="font-bold">-2.15</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2">
+<div class="h-2 rounded-full" style="background-color: rgb(249, 115, 22); width: 74%;"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span id="fakeWord5">Hidden</span>
+<span id="fakeWeight5" class="font-bold">-1.92</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2">
+<div class="h-2 rounded-full" style="background-color: rgb(249, 115, 22); width: 66%;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">Feature weights are derived from the Logistic Regression model coefficients after TF-IDF vectorization.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Component -->
+<footer class="w-full py-stack-lg px-container-padding flex flex-col items-center gap-stack-md bg-surface-container-lowest border-t border-outline-variant mt-16">
+<div class="font-headline-sm text-headline-sm font-bold text-primary flex items-center gap-2">
+<img alt="TruthLens Logo" class="h-6 w-auto grayscale opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3Q89IISLI-a-Si1CzWkk9l4A3OLShiZhi9jQaU2kQmMUQJfJJGyDTpuHnupIVLFv2MI5Xa17kEOOdfEgKCTGxqBWDgGfZrQigb8w7bGjsu4RJc-6IIGoCiA2OXSpn4srdAzpECFNPYS96fPMz7uxcC-omr3HcyvUVBaLiw_NCn5i-2IO873lIO-vNksK13pk8yQRbplu3QmomvFyWg51w8O1FlZTG9elzEQIOvhgRgAJmK8hQR634HA">
+            TruthLens AI
+        </div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all" href="#">API Documentation</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all" href="#">Contact Us</a>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center">
+            © 2026 TruthLens AI. Built with Python + NLP + Machine Learning
+        </p>
+</footer>
+<script>
+const newsInput = document.getElementById("newsInput");
+const charCount = document.getElementById("charCount");
+const clearButton = document.getElementById("clearButton");
+const analyzeButton = document.getElementById("analyzeButton");
+const headlineTab = document.getElementById("headlineTab");
+const articleTab = document.getElementById("articleTab");
+const resultCard = document.getElementById("resultCard");
+const resultBadge = document.getElementById("resultBadge");
+const confidenceText = document.getElementById("confidenceText");
+const confidenceBar = document.getElementById("confidenceBar");
+const resultMessage = document.getElementById("resultMessage");
+const articleFeatures = document.getElementById("articleFeatures");
+const articleFeatureList = document.getElementById("articleFeatureList");
+const liveBadge = document.getElementById("liveBadge");
+const liveIcon = document.getElementById("liveIcon");
+const livePrediction = document.getElementById("livePrediction");
+const liveHeadline = document.getElementById("liveHeadline");
+const liveConfidence = document.getElementById("liveConfidence");
+const liveConfidenceBar = document.getElementById("liveConfidenceBar");
+const liveMessage = document.getElementById("liveMessage");
+
+newsInput.addEventListener("input", function () {
+    const length = newsInput.value.length;
+    charCount.textContent = length + " / 5000 characters";
+});
+
+clearButton.addEventListener("click", function () {
+    newsInput.value = "";
+    charCount.textContent = "0 / 5000 characters";
+    resultCard.classList.add("hidden");
+});
+
+analyzeButton.addEventListener("click", async function () {
+    const text = newsInput.value.trim();
+
+    if (!text) {
+        resultCard.classList.remove("hidden");
+        resultBadge.textContent = "Invalid Input";
+        resultBadge.className = "px-3 py-1 rounded-full font-label-sm text-label-sm badge-fake";
+        confidenceText.textContent = "0%";
+        confidenceBar.style.width = "0%";
+        resultMessage.textContent = "Please enter a news article or headline.";
+        return;
+    }
+
+    analyzeButton.disabled = true;
+    analyzeButton.innerHTML = '<span class="material-symbols-outlined mr-2">progress_activity</span> Analyzing...';
+
+    try {
+        const response = await fetch("/predict", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                text: text
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Prediction failed.");
+        }
+
+        resultCard.classList.remove("hidden");
+
+        resultBadge.textContent = data.prediction;
+        livePrediction.textContent = data.prediction.toUpperCase();
+        liveHeadline.textContent = text;
+        liveConfidence.textContent = data.confidence + "%";
+        liveConfidenceBar.style.width = data.confidence + "%";
+        confidenceText.textContent = data.confidence + "%";
+        confidenceBar.style.width = data.confidence + "%";
+
+        if (data.prediction === "Likely Real") {
+            resultBadge.className = "px-3 py-1 rounded-full font-label-sm text-label-sm badge-real";
+            confidenceBar.className = "h-2 rounded-full transition-all duration-500 bg-green-600";
+            resultMessage.textContent = "The model found patterns that are more closely associated with real news in its training data.";
+            articleFeatures.classList.remove("hidden");
+articleFeatureList.innerHTML = "";
+
+data.real_features.forEach(item => {
+    const feature = document.createElement("div");
+    const width = Math.min(Math.abs(item.weight) * 20, 100);
+
+    feature.className = "p-3 bg-surface-container-low rounded-lg";
+
+    feature.innerHTML = `
+        <div class="flex justify-between items-center mb-2">
+            <span class="font-label-sm text-label-sm">${item.word}</span>
+            <span class="font-label-sm text-label-sm font-bold text-green-600">+${item.weight}</span>
+        </div>
+        <div class="w-full bg-surface-variant rounded-full h-2">
+            <div class="h-2 rounded-full bg-green-600 transition-all duration-500" style="width: ${width}%"></div>
+        </div>
+    `;
+
+    articleFeatureList.appendChild(feature);
+});
+         
+        } else {
+            resultBadge.className = "px-3 py-1 rounded-full font-label-sm text-label-sm badge-fake";
+            confidenceBar.className = "h-2 rounded-full transition-all duration-500 bg-orange-500";
+            resultMessage.textContent = "The model found patterns that are more closely associated with fake news in its training data.";
+            articleFeatures.classList.remove("hidden");
+articleFeatureList.innerHTML = "";
+
+data.fake_features.forEach(item => {
+    const feature = document.createElement("div");
+    const width = Math.min(Math.abs(item.weight) * 20, 100);
+
+    feature.className = "p-3 bg-surface-container-low rounded-lg";
+
+    feature.innerHTML = `
+        <div class="flex justify-between items-center mb-2">
+            <span class="font-label-sm text-label-sm">${item.word}</span>
+            <span class="font-label-sm text-label-sm font-bold text-orange-500">${item.weight}</span>
+        </div>
+        <div class="w-full bg-surface-variant rounded-full h-2">
+            <div class="h-2 rounded-full bg-orange-500 transition-all duration-500" style="width: ${width}%"></div>
+        </div>
+    `;
+
+    articleFeatureList.appendChild(feature);
+});
+        }
+
+    } catch (error) {
+        resultCard.classList.remove("hidden");
+        resultBadge.textContent = "Error";
+        resultBadge.className = "px-3 py-1 rounded-full font-label-sm text-label-sm badge-fake";
+        confidenceText.textContent = "0%";
+        confidenceBar.style.width = "0%";
+        resultMessage.textContent = error.message;
+    } finally {
+        analyzeButton.disabled = false;
+        analyzeButton.innerHTML = '<span class="material-symbols-outlined mr-2">analytics</span> Analyze';
+    }
+});
+headlineTab.addEventListener("click", function () {
+    headlineTab.className = "px-6 py-4 font-label-md text-label-md text-secondary border-b-2 border-secondary font-medium";
+    articleTab.className = "px-6 py-4 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors";
+    newsInput.placeholder = "Enter the news headline to analyze...";
+});
+
+articleTab.addEventListener("click", function () {
+    articleTab.className = "px-6 py-4 font-label-md text-label-md text-secondary border-b-2 border-secondary font-medium";
+    headlineTab.className = "px-6 py-4 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors";
+    newsInput.placeholder = "Paste the complete news article to analyze...";
+});
+
+fetch("/feature-importance")
+    .then(response => response.json())
+    .then(data => {
+        data.real.forEach((item, index) => {
+            document.getElementById("realWord" + (index + 1)).textContent = item.word;
+            document.getElementById("realWeight" + (index + 1)).textContent = "+" + item.weight;
+        });
+
+        data.fake.forEach((item, index) => {
+            document.getElementById("fakeWord" + (index + 1)).textContent = item.word;
+            document.getElementById("fakeWeight" + (index + 1)).textContent = item.weight;
+        });
+    })
+    .catch(error => {
+        console.error("Feature importance error:", error);
+    }); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</body></html>
