@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import joblib
 import re
+import os
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 
 app = Flask(__name__)
@@ -144,4 +145,4 @@ def feature_importance():
     })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+        app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
